@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { pokemonList, typeColors, type Pokemon } from "@/data/pokemon";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 function formatPokemonId(id: number): string {
@@ -16,8 +14,8 @@ export default function PokedexClient() {
   return (
     <div className="flex h-screen">
       {/* Left Column – Pokémon List */}
-      <aside className="w-64 shrink-0 border-r border-border overflow-y-auto bg-secondary">
-        <div className="p-4 border-b border-border">
+      <aside className="w-64 shrink-0 border-r border-gray-200 overflow-y-auto bg-gray-50">
+        <div className="p-4 border-b border-gray-200">
           <h1 className="text-xl font-bold tracking-tight">Pokédex</h1>
         </div>
         <ul className="py-2">
@@ -26,12 +24,19 @@ export default function PokedexClient() {
               <button
                 onClick={() => setSelected(pokemon)}
                 className={cn(
-                  "w-full text-left px-4 py-3 flex items-center gap-3 transition-colors hover:bg-accent hover:text-accent-foreground",
+                  "w-full text-left px-4 py-3 flex items-center gap-3 transition-colors hover:bg-gray-100",
                   selected.id === pokemon.id &&
-                    "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+                    "bg-gray-900 text-white hover:bg-gray-900"
                 )}
               >
-                <span className="text-xs text-muted-foreground w-8 shrink-0">
+                <span
+                  className={cn(
+                    "text-xs w-8 shrink-0",
+                    selected.id === pokemon.id
+                      ? "text-gray-400"
+                      : "text-gray-400"
+                  )}
+                >
                   {formatPokemonId(pokemon.id)}
                 </span>
                 <span className="font-medium">{pokemon.name}</span>
@@ -42,40 +47,40 @@ export default function PokedexClient() {
       </aside>
 
       {/* Right Column – Bio Section */}
-      <main className="flex-1 overflow-y-auto p-8 bg-background">
-        <Card className="max-w-xl">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">
-                {formatPokemonId(selected.id)}
-              </span>
-              <CardTitle className="text-3xl">{selected.name}</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-6">
+      <main className="flex-1 overflow-y-auto p-8 bg-white">
+        <div className="max-w-xl rounded-lg border border-gray-200 shadow-sm">
+          <div className="p-6 pb-3 flex items-center gap-3">
+            <span className="text-sm text-gray-400">
+              {formatPokemonId(selected.id)}
+            </span>
+            <h2 className="text-3xl font-semibold tracking-tight">
+              {selected.name}
+            </h2>
+          </div>
+          <div className="p-6 pt-3 space-y-6">
             {/* Type */}
             <div className="flex flex-col gap-1">
-              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+              <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
                 Type
               </span>
               <div className="flex gap-2 flex-wrap">
                 {selected.type.map((t) => (
-                  <Badge
+                  <span
                     key={t}
                     className={cn(
-                      "text-sm px-3 py-1 rounded-full border-transparent",
+                      "inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold",
                       typeColors[t] ?? "bg-gray-300 text-black"
                     )}
                   >
                     {t}
-                  </Badge>
+                  </span>
                 ))}
               </div>
             </div>
 
             {/* Category */}
             <div className="flex flex-col gap-1">
-              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+              <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
                 Category
               </span>
               <span className="text-base">{selected.category}</span>
@@ -83,13 +88,13 @@ export default function PokedexClient() {
 
             {/* Height */}
             <div className="flex flex-col gap-1">
-              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+              <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
                 Height
               </span>
               <span className="text-base">{selected.height}</span>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </main>
     </div>
   );
